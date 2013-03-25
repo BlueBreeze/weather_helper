@@ -37,20 +37,34 @@ def get_weather_by_city(city):
     lifeindex = root.xpath("//ul[@class=\'lifeindex\']/li")
     umbrella = lifeindex[0].text_content()
     clothes = lifeindex[2].text_content()
-    air = lifeindex[5].text_content()
-    print umbrella, clothes, air
+    #air = lifeindex[5].text_content()
+    #print umbrella, clothes
     
     #空气质量
     GMT_FORMAT = "new_%a %b %d %Y %H:%M:%S GMT 0800="
     arg_time = time.strftime(GMT_FORMAT, time.localtime(time.time()))
     pm25_url = "http://tianqi.2345.com/t/shikuang/"+weather_url.split('/')[-1].split('.')[0]+".js?"+arg_time
     weather_info = json.loads(urllib2.urlopen(pm25_url).read().split("=")[-1].replace(";",""))['weatherinfo']
-    pm25 = "PM2.5 =" + weather_info['pm25']
-    idx = u"空气质量指数为：" + weather_info['idx']
-    print pm25, idx
-    weather = [degress, day, night, pm25, idx, air, umbrella, clothes]
+    pm25 = u"PM2.5指数为：" + str(weather_info['pm25'])
+    idx = weather_info['idx']
+    level = ''
+    if idx <= 50:
+        level = u"优"
+    elif idx <= 100:
+        level = u"良"
+    elif idx <= 150:
+        level = u"轻度污染"
+    elif idx <= 200:
+        level = u"中度污染"
+    elif idx <= 300:
+        level = u"重度污染"
+    else:
+        level = u"严重污染"
+    #print pm25, idx
+    idx_info = u"空气质量指数为：" + str(idx) + u"空气质量为："+ level
+    weather = [degress, day, night, pm25, idx_info, umbrella, clothes]
     return " ".join(weather)
  
 if __name__ == "__main__":   
-    city = 'wuhan'
-    get_weather_by_city(city)
+    city = 'changsha'
+    print get_weather_by_city(city)
