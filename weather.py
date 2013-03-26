@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 '''
 Created on Mar 22, 2013
 
@@ -8,27 +8,20 @@ import urllib2
 import lxml.html as HTML
 import time, json
 
+from city_code import city_code
+
 def get_weather_by_city(city):
-    
-    beijing = "http://tianqi.2345.com/beijing/54511.htm"
-    chengdu = "http://tianqi.2345.com/chengdu/56294.htm"
-    hangzhou = "http://tianqi.2345.com/hangzhou/58457.htm"
-    changsha = "http://tianqi.2345.com/changsha/57687.htm"
-    wuhan = "http://tianqi.2345.com/wuhan/57494.htm"
-    
-    dict_weather = {'beijing':beijing,\
-                   'chengdu':chengdu,\
-                   'hangzhou':hangzhou,\
-                   'changsha':changsha,\
-                   'wuhan':wuhan
-                   }
-    
-    weather_url = dict_weather[city]
+
+    base_url = "http://tianqi.2345.com"
+    code = city_code[city]
+    weather_url = "%s/%s/%s.htm" % (base_url, city, code)
+    print weather_url
+    exit()
     html = urllib2.urlopen(weather_url).read()
     html = html.decode('gbk', 'ignore')
     #print html
     root = HTML.document_fromstring(html)
-    
+
     day = root.xpath("//li[@class=\'week-detail-now\']/b")[0].text_content()
     night = root.xpath("//li[@class=\'week-detail-now\']/b")[1].text_content()
     degress = root.xpath("//li[@class=\'week-detail-now\']/i")[0].text_content()
@@ -39,7 +32,7 @@ def get_weather_by_city(city):
     clothes = lifeindex[2].text_content()
     #air = lifeindex[5].text_content()
     #print umbrella, clothes
-    
+
     #空气质量
     GMT_FORMAT = "new_%a %b %d %Y %H:%M:%S GMT 0800="
     arg_time = time.strftime(GMT_FORMAT, time.localtime(time.time()))
@@ -64,7 +57,7 @@ def get_weather_by_city(city):
     idx_info = u"空气质量指数为：" + str(idx) + u"空气质量为："+ level
     weather = [degress, day, night, pm25, idx_info, umbrella, clothes]
     return " ".join(weather)
- 
-if __name__ == "__main__":   
+
+if __name__ == "__main__":
     city = 'changsha'
     print get_weather_by_city(city)
