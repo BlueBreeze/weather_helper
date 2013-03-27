@@ -13,11 +13,6 @@ def send_weather_info(contact_list):
     user = ''#手机号
     passwd = ''#飞信密码
     f = fetion(user, passwd)
-    
-    msg = u'测试测试'
-    #num = ',706239555'
-    id_contact = '634800131,706239555'
-    #    ,634800131
     f.login()
 
     cfg = ConfigParser.RawConfigParser()
