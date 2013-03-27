@@ -13,10 +13,9 @@ from city_code import city_code
 def get_weather_by_city(city):
 
     base_url = "http://tianqi.2345.com"
-    code = city_code[city]
+    code = city_code[city][0]
     weather_url = "%s/%s/%s.htm" % (base_url, city, code)
-    print weather_url
-    exit()
+    #print weather_url
     html = urllib2.urlopen(weather_url).read()
     html = html.decode('gbk', 'ignore')
     #print html
@@ -26,7 +25,7 @@ def get_weather_by_city(city):
     night = root.xpath("//li[@class=\'week-detail-now\']/b")[1].text_content()
     degress = root.xpath("//li[@class=\'week-detail-now\']/i")[0].text_content()
 
-    print day, night, degress
+    #print day, night, degress
     lifeindex = root.xpath("//ul[@class=\'lifeindex\']/li")
     umbrella = lifeindex[0].text_content()
     clothes = lifeindex[2].text_content()
@@ -34,9 +33,9 @@ def get_weather_by_city(city):
     #print umbrella, clothes
 
     #空气质量
-    GMT_FORMAT = "new_%a %b %d %Y %H:%M:%S GMT 0800="
+    GMT_FORMAT = "new_%a %b %d %Y %H:%M:%S GMT 0800="  
     arg_time = time.strftime(GMT_FORMAT, time.localtime(time.time()))
-    pm25_url = "http://tianqi.2345.com/t/shikuang/"+weather_url.split('/')[-1].split('.')[0]+".js?"+arg_time
+    pm25_url = "http://tianqi.2345.com/t/shikuang/%s.js?%s" % (code, arg_time)
     weather_info = json.loads(urllib2.urlopen(pm25_url).read().split("=")[-1].replace(";",""))['weatherinfo']
     pm25 = u"PM2.5指数为：" + str(weather_info['pm25'])
     idx = weather_info['idx']
@@ -54,10 +53,12 @@ def get_weather_by_city(city):
     else:
         level = u"严重污染"
     #print pm25, idx
-    idx_info = u"空气质量指数为：" + str(idx) + u"空气质量为："+ level
-    weather = [degress, day, night, pm25, idx_info, umbrella, clothes]
-    return " ".join(weather)
+    idx_info = u"空气质量指数为：%s %s" %(str(idx), level)
+    date_format = "%b %d %Y"
+    date = time.strftime(date_format, time.localtime(time.time()))
+    weather = [city_code[city][1], date, degress, day, night, pm25, idx_info, umbrella, clothes]
+    return "\n".join(weather)
 
 if __name__ == "__main__":
-    city = 'changsha'
+    city = 'hangzhou'
     print get_weather_by_city(city)
