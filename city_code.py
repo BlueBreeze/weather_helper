@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*- 
 
 city_code = {
-    'beijing': [54511, u'北京'],
-    'chengdu': [56294, u'成都' ],
-    'hangzhou': [58457, u'杭州'],
-    'changsha': [57687, u'长沙'],
-    'wuhan': [57494, u'武汉'],
+    'beijing': {'code':54511, 'name':u'北京'},
+    'chengdu': {'code':56294, 'name':u'成都'},
+    'hangzhou': {'code':58457, 'name':u'杭州'},
+    'changsha': {'code':57687, 'name':u'长沙'},
+    'wuhan': {'code':57494, 'name':u'武汉'},
 }
 

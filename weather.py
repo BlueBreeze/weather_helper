@@ -13,7 +13,7 @@ from city_code import city_code
 def get_weather_by_city(city):
 
     base_url = "http://tianqi.2345.com"
-    code = city_code[city][0]
+    code = city_code[city]['code']
     weather_url = "%s/%s/%s.htm" % (base_url, city, code)
     #print weather_url
     html = urllib2.urlopen(weather_url).read()
@@ -28,7 +28,7 @@ def get_weather_by_city(city):
     #print day, night, degress
     lifeindex = root.xpath("//ul[@class=\'lifeindex\']/li")
     umbrella = lifeindex[0].text_content()
-    clothes = lifeindex[2].text_content()
+    clothes = lifeindex[3].text_content()
     #air = lifeindex[5].text_content()
     #print umbrella, clothes
 
@@ -56,7 +56,7 @@ def get_weather_by_city(city):
     idx_info = u"空气质量指数为：%s %s" %(str(idx), level)
     date_format = "%b %d %Y"
     date = time.strftime(date_format, time.localtime(time.time()))
-    weather = [city_code[city][1], date, degress, day, night, pm25, idx_info, umbrella, clothes]
+    weather = [city_code[city]['name'], date, degress, day, night, pm25, idx_info, umbrella, clothes]
     return "\n".join(weather)
 
 if __name__ == "__main__":
