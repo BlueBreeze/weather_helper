@@ -6,5 +6,8 @@ city_code = {
     'hangzhou': {'code':58457, 'name':u'杭州'},
     'changsha': {'code':57687, 'name':u'长沙'},
     'wuhan': {'code':57494, 'name':u'武汉'},
+    'fuzhou':{'code':58847, 'name':u'福州'},
+    'ningbo':{'code':58465, 'name':u'宁波'},
+    'shaoyang':{'code':57766,'name':u'邵阳'}
 }
 
