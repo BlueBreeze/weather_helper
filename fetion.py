@@ -67,13 +67,13 @@ class fetion():
 
 if __name__ == "__main__":
 
-    user = '15899746524'#手机号
-    passwd = 'j582033'#飞信密码
+    user = ''#手机号
+    passwd = ''#飞信密码
     f = fetion(user, passwd)
 
     msg = u'test'
     #num = ',706239555'
-    id_contact = "634800131"
+    id_contact = ""
     #    ,634800131
     f.login()
     #f.send_msg(id_contact, msg)
